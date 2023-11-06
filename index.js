@@ -1,23 +1,25 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const { signUp } = require("./controllers/loginSignup.js");
+const dotenv = require("dotenv");
 const {
-  signUp,
   secretCode,
-  token,
   verify,
-} = require("./controllers/loginSignup.js");
-const uuid = require("uuid");
+  qrCodeGenerator,
+} = require("./Controllers/verification.js");
 const BodyParser = require("body-parser");
-const speakeasy = require("speakeasy");
-const app = express();
 
+dotenv.config();
+const app = express();
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 app.post("/signup", signUp);
 app.post("/authentication", secretCode);
-app.post("/token", token);
+
+app.post("/qrcode", qrCodeGenerator);
+// app.post("/token", token);
 app.post("/verify", verify);
 
 const port = 3000;
