@@ -13,7 +13,6 @@ module.exports.secretCode = async (req, res, next) => {
 
 module.exports.qrCodeGenerator = async (req, res, next) => {
   const secret = await req.cookies.secret;
-  console.log(secret)
   const data = await qrcode.toDataURL(secret.otpauth_url);
   console.log(data);
   res.send("");
@@ -30,13 +29,3 @@ module.exports.verify = async (req, res, next) => {
     valid: isValid,
   });
 };
-
-// module.exports.token = async (req, res, next) => {
-//   res.send({
-//     token: Speakeasy.totp({
-//       secret: req.body.secret,
-//       encoding: "base32",
-//     }),
-//     remaining: 30 - Math.floor((new Date().getTime() / 1000.0) % 30),
-//   });
-// };
